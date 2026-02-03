@@ -1,0 +1,71 @@
+@startuml
+
+class Utilisateur {
+  id : Long
+  nom : String
+  email : String
+}
+
+class Etudiant {
+  promotion : String
+}
+
+class Administrateur {
+  role : String
+}
+
+Utilisateur <|-- Etudiant
+Utilisateur <|-- Administrateur
+
+class Dominante {
+  id : Long
+  nom : String
+  description : String
+}
+
+class Session {
+  id : Long
+  date : Date
+  heureDebut : Time
+  heureFin : Time
+  capaciteMax : int
+}
+
+Dominante "1" -- "0..*" Session : propose
+
+class Campagne {
+  id : Long
+  dateOuverture : DateTime
+  dateFermeture : DateTime
+  etat : EtatCampagne
+}
+
+enum EtatCampagne {
+  PREPARATION
+  OUVERTE
+  FERMEE
+  TRAITEE
+  ARCHIVEE
+}
+
+Campagne "1" -- "0..*" Session
+Campagne "1" -- "0..*" Choix
+
+class Choix {
+  priorite : int
+  dateSaisie : DateTime
+}
+
+Etudiant "1" -- "0..*" Choix
+Session "1" -- "0..*" Choix
+
+class Affectation {
+  dateAttribution : DateTime
+  statut : String
+}
+
+Etudiant "1" -- "0..1" Affectation
+Session "1" -- "0..*" Affectation
+Campagne "1" -- "0..*" Affectation
+
+@enduml
