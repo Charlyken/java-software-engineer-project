@@ -4,6 +4,12 @@ class Utilisateur {
   id : Long
   nom : String
   email : String
+  role : Role
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 class Etudiant {
@@ -45,13 +51,22 @@ enum EtatCampagne {
 
 
 class Choix {
-  priorite : int
+  listeChoix : ArrayList
   dateSaisie : DateTime
 }
 
-class Affectation {
-  dateAttribution : DateTime
-  statut : String
+enum Statut {
+  EN_ATTENTE
+  CONFIRME
+  REFUSE
+}
+
+class Inscription {
+  id: Long
+  dateInscription : DateTime
+  dateValidation : DateTime
+  choix : Choix
+  statut : Statut
 }
 
 @enduml

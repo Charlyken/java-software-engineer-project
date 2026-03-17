@@ -4,6 +4,7 @@ class Utilisateur {
   id : Long
   nom : String
   email : String
+  role : Role
 }
 
 class Etudiant {
@@ -31,41 +32,28 @@ class Session {
   capaciteMax : int
 }
 
-Dominante "1" -- "0..*" Session : propose
+Dominante "1" -- "0..*" Session : proposer
 
 class Campagne {
   id : Long
   dateOuverture : DateTime
   dateFermeture : DateTime
+  choix : Choix
   etat : EtatCampagne
 }
 
-enum EtatCampagne {
-  PREPARATION
-  OUVERTE
-  FERMEE
-  TRAITEE
-  ARCHIVEE
+Campagne "1" *-- "0..*" Session : contenir
+Administrateur "1" -- "0..*" Campagne : parametrer
+
+class Inscription {
+  id: Long
+  dateInscription : DateTime
+  dateValidation : DateTime
+  choix : Choix
+  statut : Statut
 }
-
-Campagne "1" -- "0..*" Session
-Campagne "1" -- "0..*" Choix
-
-class Choix {
-  priorite : int
-  dateSaisie : DateTime
-}
-
-Etudiant "1" -- "0..*" Choix
-Session "1" -- "0..*" Choix
-
-class Affectation {
-  dateAttribution : DateTime
-  statut : String
-}
-
-Etudiant "1" -- "0..1" Affectation
-Session "1" -- "0..*" Affectation
-Campagne "1" -- "0..*" Affectation
+Etudiant "1" -- "0..1" Inscription : consulter
+Session "1" o-- "0..*"  Inscription : contenir
+Campagne "1" *-- "0..*" Inscription : contenir
 
 @enduml
