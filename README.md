@@ -1,4 +1,4 @@
-# Système de Gestion des Inscriptions <img src="esigelec_logo.png"></img>
+# Système de Gestion des Inscriptions <img src="esigelec_logo.png" width="500" height="300"></img>
 
 ## À propos du projet
 
