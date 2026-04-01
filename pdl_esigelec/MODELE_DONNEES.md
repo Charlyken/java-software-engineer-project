@@ -12,7 +12,7 @@ email : VARCHAR(255), UNIQUE, NOT NULL
 
 mot_de_passe : VARCHAR(255), NOT NULL (Hashé)
 
-role : VARCHAR(50), NOT NULL (Valeurs : 'ADMIN', 'ETUDIANT')
+string : VARCHAR(50), NOT NULL (Valeurs : 'ADMIN', 'ETUDIANT')
 
 Table etudiants
 
