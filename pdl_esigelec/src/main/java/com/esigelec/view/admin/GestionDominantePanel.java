@@ -21,7 +21,7 @@ public class GestionDominantePanel extends JPanel {
         c.insets = new Insets(10, 10, 10, 10);
 
         // Modèle de tableau (colonnes adaptées pour les dominantes)
-        String[] columns = {"ID", "Sigle", "Nom / Libellé"};
+        String[] columns = {"ID", "Sigle", "Description"};
         dominantesTableModel = new DefaultTableModel(null, columns) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
@@ -38,14 +38,14 @@ public class GestionDominantePanel extends JPanel {
         this.add(new JScrollPane(tableDominantes), c);
 
         // Positionnement des boutons en bas
-        c.weighty = 0.0;
+        c.weighty = 0.0; // espace du bas vide pour les boutons
         c.fill = GridBagConstraints.NONE;
         c.gridwidth = 1;
         c.gridy = 1;
 
         btnAjouterDominante = new JButton("Ajouter une Dominante");
         c.gridx = 0;
-        c.anchor = GridBagConstraints.EAST;
+        c.anchor = GridBagConstraints.EAST; // position x=0-est
         this.add(btnAjouterDominante, c);
 
         btnModifierDominante = new JButton("Modifier");
@@ -56,7 +56,7 @@ public class GestionDominantePanel extends JPanel {
         btnSupprimerDominante = new JButton("Supprimer");
         c.gridx = 2;
         c.anchor = GridBagConstraints.WEST;
-        this.add(btnSupprimerDominante, c);
+        this.add(btnSupprimerDominante, c); // position x=2-ouest
     }
 
     // Getters pour que le contrôleur puisse interagir

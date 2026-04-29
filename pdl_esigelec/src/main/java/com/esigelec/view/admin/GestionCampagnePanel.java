@@ -1,6 +1,7 @@
 package com.esigelec.view.admin;
 
 import javax.swing.*;
+import javax.swing.text.Position;
 import java.awt.*;
 
 public class GestionCampagnePanel extends JPanel {
@@ -22,7 +23,7 @@ public class GestionCampagnePanel extends JPanel {
         // Label Choix
         c.gridx = 0;
         c.gridy = 0;
-        c.anchor = GridBagConstraints.EAST;
+        c.anchor = GridBagConstraints.EAST; //position est-centre
         this.add(new JLabel("Nbre de Choix max par étudiant :"), c);
 
         // Spinner Choix

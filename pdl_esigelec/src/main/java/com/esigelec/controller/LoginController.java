@@ -33,6 +33,7 @@ public class LoginController {
 
             if("ADMIN".equals(user.getRole().toString())){
                 AdminDashboard adminDashboard = new AdminDashboard();
+                new AdminController(adminDashboard);
                 adminDashboard.setVisible(true);
             } else {
                 EtudiantDashboard etudiantDashboard = new EtudiantDashboard();

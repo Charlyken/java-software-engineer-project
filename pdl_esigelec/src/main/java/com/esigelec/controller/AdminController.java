@@ -18,7 +18,7 @@ public class AdminController {
         this.dominanteDAO = new DominanteDAOImpl();
 
         initListeners();
-        chargerDominantes(); // On remplit le tableau au démarrage (Read)
+        chargerDominantes(); // chargement du tableau au démarrage
     }
 
     /**
