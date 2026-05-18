@@ -7,7 +7,7 @@ import com.esigelec.model.Session;
 public interface SessionDAO {
     
     void createSession(Session session);
-    List<Session> getAllSessions();
+    List<Session> getAllSessionsByCampagne(Long idCampagne);
     Session getSessionById(Long id);
     void deleteSession(Long id);
     void updateSession(Session session);

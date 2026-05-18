@@ -10,6 +10,8 @@ public class Campagne {
     private int nbreChoix;
     private EtatCampagne  etat;
 
+    public Campagne() {
+    }
 
     public Campagne(String nom, LocalDate dateDebut, LocalDate dateFin, int nbreChoix, EtatCampagne etat) {
         this.nom = nom;

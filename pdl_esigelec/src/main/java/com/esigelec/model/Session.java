@@ -10,13 +10,14 @@ public class Session {
     private String heureFin;
     private int capaciteMax;
     
-    private Campagne campagne;
-    private Dominante dominante;
-
-    public Session(int capaciteMax, Campagne campagne, Dominante dominante, Date date, String heureDebut, String heureFin) {
+    private Long  idCampagne;
+    private Long idDominante;
+    
+    public Session() {}
+    public Session(int capaciteMax, Long idCampagne, Long idDominante, Date date, String heureDebut, String heureFin) {
         this.capaciteMax = capaciteMax;
-        this.campagne = campagne;
-        this.dominante = dominante;
+        this.idCampagne = idCampagne;
+        this.idDominante = idDominante;
         this.date = date;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
@@ -30,20 +31,20 @@ public class Session {
         this.id = id;
     }
 
-    public Dominante getDominante() {
-        return dominante;
+    public Long getDominante() {
+        return idDominante;
     }
 
-    public void setDominante(Dominante dominante) {
-        this.dominante = dominante;
+    public void setDominante(Long idDominante) {
+        this.idDominante = idDominante;
     }
 
-    public Campagne getCampagne() {
-        return campagne;
+    public Long getCampagne() {
+        return idCampagne;
     }
 
-    public void setCampagne(Campagne campagne) {
-        this.campagne = campagne;
+    public void setCampagne(Long idCampagne) {
+        this.idCampagne = idCampagne;
     }
 
     public Date getDate() {

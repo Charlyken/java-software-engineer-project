@@ -103,20 +103,20 @@
 - [x] 2.1.11 Test manuel PVL #8 et #9 - *Julien + Tobi*
 
 #### SPRINT 2.2 - Référentiel & Gestion des Campagnes (S7-S8)
-- [ ] 2.2.1 Entités POJO : Campagne, Dominante, Session, EtatCampagne - *Tobi*
-- [ ] 2.2.2 DominanteDAO - *Tobi*
-- [ ] 2.2.3 SessionDAO - *Tobi*
-- [ ] 2.2.4 CampagneDAO - *Tobi*
-- [ ] 2.2.5 CampagneService (création) - *Tobi*
-- [ ] 2.2.6 CampagneService (machine à états) - *Tobi*
-- [ ] 2.2.7 HoraireValidator.java - *Tobi*
-- [ ] 2.2.8 SessionService - *Tobi*
-- [ ] 2.2.9 AdminDashboard.java (Tabs) - *Julien*
-- [ ] 2.2.10 GestionCampagnePanel - *Julien*
-- [ ] 2.2.11 GestionSessionPanel - *Julien*
-- [ ] 2.2.12 AdminController - *Tobi*
-- [ ] 2.2.13 Traçabilité changements d'état - *Tobi*
-- [ ] 2.2.14 Tests manuels PVL (#1, #2, #5, #7) - *Julien + Tobi*
+- [x] 2.2.1 Entités POJO : Campagne, Dominante, Session, EtatCampagne - *Tobi*
+- [x] 2.2.2 DominanteDAO - *Tobi*
+- [x] 2.2.3 SessionDAO - *Tobi*
+- [x] 2.2.4 CampagneDAO - *Tobi*
+- [x] 2.2.5 CampagneService (création) - *Tobi*
+- [x] 2.2.6 CampagneService (machine à états) - *Tobi*
+- [x] 2.2.7 HoraireValidator.java - *Tobi*
+- [x] 2.2.8 SessionService - *Tobi*
+- [x] 2.2.9 AdminDashboard.java (Tabs) - *Julien*
+- [x] 2.2.10 GestionCampagnePanel - *Julien*
+- [x] 2.2.11 GestionSessionPanel - *Julien*
+- [x] 2.2.12 AdminController - *Tobi*
+- [x] 2.2.13 Traçabilité changements d'état - *Tobi*
+- [x] 2.2.14 Tests manuels PVL (#1, #2, #5, #7) - *Julien + Tobi*
 
 #### SPRINT 2.3 - Portail Étudiant — Inscription & Choix (S9-S10)
 - [ ] 2.3.1 Entité POJO : Choix - *Tobi*
