@@ -20,8 +20,8 @@ CREATE TABLE ADMINS (
 );
 
 CREATE TABLE CAMPAGNES (
-    id_campagne INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nom_campagne VARCHAR(50) NOT NULL UNIQUE,
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    nom VARCHAR(50) NOT NULL UNIQUE,
     date_debut DATE NOT NULL,
     date_fin DATE NOT NULL,
     nbre_choix INT NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE SESSIONS (
     heure_fin VARCHAR(5) NOT NULL,
     capacite_max INT NOT NULL,
     FOREIGN KEY (id_dominante) REFERENCES DOMINANTES(id_dominante),
-    FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id_campagne),
+    FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id),
     CONSTRAINT chk_horaires CHECK (
         (heure_debut = '08:30' AND heure_fin = '12:30') 
         OR 
@@ -52,17 +52,17 @@ CREATE TABLE SESSIONS (
 );
 
 CREATE TABLE CHOIX (
-  id_choix INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  id_etudiant INT NOT NULL,
-  id_session INT NOT NULL,
-  id_campagne INT NOT NULL,
-  date_saisie DATE DEFAULT CURRENT_DATE NOT NULL,
-  priorite INT NOT NULL,
-  FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
-  FOREIGN KEY (id_session) REFERENCES SESSIONS(id_session),
-  FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id_campagne),
-  CONSTRAINT uq_etudiant_session UNIQUE (id_etudiant, id_session),
-  CONSTRAINT uq_choix_priorite UNIQUE (id_etudiant, priorite, id_campagne)
+    id_choix INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_etudiant INT NOT NULL,
+    id_session INT NOT NULL,
+    id_campagne INT NOT NULL,
+    date_saisie DATE DEFAULT CURRENT_DATE NOT NULL,
+    priorite INT NOT NULL,
+    FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
+    FOREIGN KEY (id_session) REFERENCES SESSIONS(id_session),
+    FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id),
+    CONSTRAINT uq_etudiant_session UNIQUE (id_etudiant, id_session),
+    CONSTRAINT uq_choix_priorite UNIQUE (id_etudiant, priorite, id_campagne)
 );
 
 CREATE TABLE INSCRIPTIONS (
@@ -73,5 +73,6 @@ CREATE TABLE INSCRIPTIONS (
     date_inscription DATE DEFAULT CURRENT_DATE NOT NULL,
     FOREIGN KEY (id_etudiant) REFERENCES ETUDIANTS(id_etudiant),
     FOREIGN KEY (id_session) REFERENCES SESSIONS(id_session),
-    FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id_campagne)
+    FOREIGN KEY (id_campagne) REFERENCES CAMPAGNES(id)
 );
+

@@ -14,6 +14,8 @@ public class CampagneDAOImpl implements CampagneDAO{
     private static final String SELECT_ALL = "SELECT * FROM CAMPAGNES";
     private static final String SELECT_BY_ID = "SELECT * FROM CAMPAGNES WHERE id = ?";
     private static final String UPDATE_ETAT = "UPDATE CAMPAGNES SET etat = ? WHERE id = ?";
+    private static final String DELETE = "DELETE FROM CAMPAGNES WHERE id = ?";
+    private static final String UPDATE = "UPDATE CAMPAGNES SET nom = ?, date_debut = ?, date_fin = ?, nbre_choix = ?, etat = ? WHERE id = ?";
 
     @Override
    public void create (Campagne campagne){
@@ -29,7 +31,7 @@ public class CampagneDAOImpl implements CampagneDAO{
             ps.setString(5, campagne.getEtat().name());
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la création de la campagne : " + e.getMessage());
         }
     }
 
@@ -50,7 +52,7 @@ public class CampagneDAOImpl implements CampagneDAO{
                 campagnes.add(campagne);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la récupération des campagnes : " + e.getMessage());
         }
         return campagnes;
     }
@@ -93,8 +95,42 @@ public class CampagneDAOImpl implements CampagneDAO{
             ps.setLong(2, idCampagne);
             ps.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Erreur lors de la mise à jour de l'état de la campagne : " + e.getMessage());
         }
 
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (id == null) {
+            return;
+        }
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(DELETE)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la suppression de la campagne : " + e.getMessage());
+        }
+    }  
+    
+    @Override
+    public void update(Campagne campagne){
+        if (campagne == null || campagne.getId() == null) {
+            return;
+        }
+
+        try (Connection con = DataBaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(UPDATE)) {
+            ps.setString(1, campagne.getNom());
+            ps.setDate(2, java.sql.Date.valueOf(campagne.getDateDebut()));
+            ps.setDate(3, java.sql.Date.valueOf(campagne.getDateFin()));
+            ps.setInt(4, campagne.getNbreChoix());
+            ps.setString(5, campagne.getEtat().name());
+            ps.setLong(6, campagne.getId());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur lors de la mise à jour de la campagne : " + e.getMessage());
+        }
     }
 }

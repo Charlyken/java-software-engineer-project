@@ -58,7 +58,7 @@ public class CampagneService {
         }
     }   
 
-    private void changerEtat(Long campagneId, EtatCampagne nouvelEtat) throws Exception {
+    public void changerEtat(Long campagneId, EtatCampagne nouvelEtat) throws Exception {
         Campagne campagne = campagneDAO.findById(campagneId);
         if (campagne == null) {
             throw new IllegalArgumentException("Campagne non trouvée.");
@@ -76,5 +76,34 @@ public class CampagneService {
             throw new IllegalStateException("Transition d'état invalide : " + etatActuel + " -> " + nouvelEtat);
         }
         campagneDAO.updateEtat(campagneId, nouvelEtat);
+    }
+    
+    public void deleteCampagne(Long campagneId) {
+        try {
+            campagneDAO.delete(campagneId);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la suppression de la campagne : " + e.getMessage(), e);
+        }
+    }
+
+    public void updateCampagne(Campagne campagne){
+        if (campagne == null || campagne.getId() == null) {
+            throw new IllegalArgumentException("La campagne et son ID ne peuvent pas être nuls.");
+        }
+        if (campagne.getNom() == null || campagne.getNom().isEmpty() || campagne.getDateDebut() == null || campagne.getDateFin() == null || campagne.getNbreChoix() <= 0) {
+            throw new IllegalArgumentException("Tous les champs sont obligatoires et doivent être valides.");
+        }
+        if (campagne.getDateDebut().isAfter(campagne.getDateFin())) {
+            throw new IllegalArgumentException("La date de début doit être avant la date de fin.");
+        }
+        try {
+            campagneDAO.update(campagne);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de la mise à jour de la campagne : " + e.getMessage(), e);
+        }
+    }
+    
+    public java.util.List<Campagne> getAllCampagnes() {
+        return campagneDAO.findAll();
     }
 }

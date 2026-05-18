@@ -39,7 +39,7 @@ public class SessionService {
         return sessionDAO.getSessionById(idSession);
     }
 
-        public void updateSession(Session session) {
+    public void updateSession(Session session) {
         if (session == null || session.getId() == null) {
             throw new IllegalArgumentException("La session ou son id ne peut etre null.");
         }

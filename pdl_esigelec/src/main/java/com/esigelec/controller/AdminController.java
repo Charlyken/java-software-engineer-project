@@ -35,6 +35,7 @@ public class AdminController {
         this.sessionService = new SessionService(sessionDAO);
         initListeners();
         chargerDominantes(); // chargement du tableau au démarrage
+        chargerCampagnes();
     }
 
     /**
@@ -70,9 +71,131 @@ public class AdminController {
     }
 
     private void initCampagneListeners() {
+        vue.getCampagnePanel().getBtnCreer().addActionListener(e -> onCreerCampagne());
+        vue.getCampagnePanel().getBtnModifier().addActionListener(e -> onModifierCampagne());
+        vue.getCampagnePanel().getBtnSupprimer().addActionListener(e -> onSupprimerCampagne());
+        vue.getCampagnePanel().getBtnReset().addActionListener(e -> onResetFormCampagne());
+        
         vue.getCampagnePanel().getBtnOuvrirCampagne().addActionListener(e -> onOuvrirCampagne());
         vue.getCampagnePanel().getBtnFermerCampagne().addActionListener(e -> onFermerCampagne());
         vue.getCampagnePanel().getBtnLancerTraitement().addActionListener(e -> onLancerTraitement());
+
+        // Event for table selection to update status label and fill form
+        vue.getCampagnePanel().getTableCampagnes().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && vue.getCampagnePanel().getTableCampagnes().getSelectedRow() != -1) {
+                onCampagneSelectionnee();
+            }
+        });
+    }
+
+    private void chargerCampagnes() {
+        DefaultTableModel model = vue.getCampagnePanel().getTableModel();
+        model.setRowCount(0);
+
+        List<Campagne> liste = campagneService.getAllCampagnes();
+        for (Campagne c : liste) {
+            model.addRow(new Object[]{
+                c.getId(), 
+                c.getNom(), 
+                c.getDateDebut().toString(), 
+                c.getDateFin().toString(), 
+                c.getNbreChoix(), 
+                c.getEtat().name()
+            });
+        }
+    }
+
+    private void onCampagneSelectionnee() {
+        int row = vue.getCampagnePanel().getTableCampagnes().getSelectedRow();
+        DefaultTableModel model = vue.getCampagnePanel().getTableModel();
+
+        String nom = (String) model.getValueAt(row, 1);
+        String dateDebut = (String) model.getValueAt(row, 2);
+        String dateFin = (String) model.getValueAt(row, 3);
+        int nbChoix = (int) model.getValueAt(row, 4);
+        String etat = (String) model.getValueAt(row, 5);
+
+        vue.getCampagnePanel().getTxtNom().setText(nom);
+        vue.getCampagnePanel().getTxtDateDebut().setText(dateDebut);
+        vue.getCampagnePanel().getTxtDateFin().setText(dateFin);
+        vue.getCampagnePanel().getNbChoixSpinner().setValue(nbChoix);
+        vue.getCampagnePanel().getStatusLabel().setText("État actuel : " + etat);
+
+        boolean isPrep = "EN_PREPARATION".equals(etat);
+        boolean isOuverte = "OUVERTE".equals(etat);
+        boolean isFermee = "FERMEE".equals(etat);
+
+        vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(isPrep);
+        vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(isOuverte);
+        vue.getCampagnePanel().getBtnLancerTraitement().setEnabled(isFermee);
+        vue.getCampagnePanel().getBtnModifier().setEnabled(isPrep);
+        vue.getCampagnePanel().getBtnSupprimer().setEnabled(isPrep);
+    }
+
+    private void onCreerCampagne() {
+        try {
+            String nom = vue.getCampagnePanel().getTxtNom().getText();
+            java.time.LocalDate debut = java.time.LocalDate.parse(vue.getCampagnePanel().getTxtDateDebut().getText());
+            java.time.LocalDate fin = java.time.LocalDate.parse(vue.getCampagnePanel().getTxtDateFin().getText());
+            int nbChoix = vue.getCampagnePanel().getNbChoixMax();
+
+            campagneService.createCampagne(nom, debut, fin, nbChoix);
+            chargerCampagnes();
+            onResetFormCampagne();
+            JOptionPane.showMessageDialog(vue, "Campagne créée.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vue, "Erreur : " + ex.getMessage());
+        }
+    }
+
+    private void onModifierCampagne() {
+        int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
+        if (row == -1) return;
+
+        Long id = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
+        String etatStr = (String) vue.getCampagnePanel().getTableModel().getValueAt(row, 5);
+        com.esigelec.model.EtatCampagne etat = com.esigelec.model.EtatCampagne.valueOf(etatStr);
+
+        try {
+            String nom = vue.getCampagnePanel().getTxtNom().getText();
+            java.time.LocalDate debut = java.time.LocalDate.parse(vue.getCampagnePanel().getTxtDateDebut().getText());
+            java.time.LocalDate fin = java.time.LocalDate.parse(vue.getCampagnePanel().getTxtDateFin().getText());
+            int nbChoix = vue.getCampagnePanel().getNbChoixMax();
+
+            Campagne c = new Campagne(nom, debut, fin, nbChoix, etat);
+            c.setId(id);
+
+            campagneService.updateCampagne(c);
+            chargerCampagnes();
+            JOptionPane.showMessageDialog(vue, "Campagne modifiée.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vue, "Erreur : " + ex.getMessage());
+        }
+    }
+
+    private void onSupprimerCampagne() {
+        int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
+        if (row == -1) return;
+
+        Long id = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
+
+        try {
+            campagneService.deleteCampagne(id);
+            chargerCampagnes();
+            onResetFormCampagne();
+            JOptionPane.showMessageDialog(vue, "Campagne supprimée.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(vue, "Erreur : " + ex.getMessage());
+        }
+    }
+
+    private void onResetFormCampagne() {
+        vue.getCampagnePanel().getTxtNom().setText("");
+        vue.getCampagnePanel().getTxtDateDebut().setText("");
+        vue.getCampagnePanel().getTxtDateFin().setText("");
+        vue.getCampagnePanel().getNbChoixSpinner().setValue(1);
+        vue.getCampagnePanel().getTableCampagnes().clearSelection();
+        vue.getCampagnePanel().getStatusLabel().setText("Sélectionnez une campagne");
     }
 
     private void initSessionListeners() {
@@ -172,13 +295,13 @@ public class AdminController {
 
 
     private void onOuvrirCampagne() {
-        Long idCampagne = demanderIdCampagne();
-        if (idCampagne == null) {
-            return;
-        }
+        int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
+        if (row == -1) return;
+        Long idCampagne = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
 
         try {
             campagneService.ouvrirCampagne(idCampagne);
+            chargerCampagnes();
             vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Ouverte");
             vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(false);
             vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(true);
@@ -188,13 +311,13 @@ public class AdminController {
     }
 
     private void onFermerCampagne() {
-        Long idCampagne = demanderIdCampagne();
-        if (idCampagne == null) {
-            return;
-        }
+        int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
+        if (row == -1) return;
+        Long idCampagne = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
 
         try {
             campagneService.fermerCampagne(idCampagne);
+            chargerCampagnes();
             vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Fermee");
             vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(false);
             vue.getCampagnePanel().getBtnLancerTraitement().setEnabled(true);
@@ -220,7 +343,7 @@ public class AdminController {
         }
     }
 
-    
+
 
     private void onCreerSession() {
         Session session = lireSessionDepuisFormulaire();
