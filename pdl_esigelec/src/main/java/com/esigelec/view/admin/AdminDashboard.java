@@ -2,10 +2,12 @@ package com.esigelec.view.admin;
 
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * @author Julien
+ */
 public class AdminDashboard extends JFrame {
       private GestionCampagnePanel campagnePanel;
-   // private GestionSessionPanel sessionPanel;
+      private GestionSessionPanel sessionPanel;
       private GestionDominantePanel dominantePanel;
    // private StatistiquesPanel statsPanel;
 
@@ -18,9 +20,9 @@ public class AdminDashboard extends JFrame {
 
         // Instanciation des sous-onglets
         campagnePanel = new GestionCampagnePanel();
-//        sessionPanel = new GestionSessionPanel();
+        sessionPanel = new GestionSessionPanel();
           dominantePanel = new GestionDominantePanel();
-//        statsPanel = new StatistiquesPanel();
+       // statsPanel = new StatistiquesPanel();
 
         buildUI();
     }
@@ -28,7 +30,7 @@ public class AdminDashboard extends JFrame {
     private void buildUI() {
         // En-tête
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel titleLabel = new JLabel("Espace Administrateur - Administration des dominantes");
+        JLabel titleLabel = new JLabel("Espace Administrateur - Administration");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
         titleLabel.setForeground(Color.RED);
         headerPanel.add(titleLabel);
@@ -37,16 +39,16 @@ public class AdminDashboard extends JFrame {
         // Onglets
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Gestion Campagne", campagnePanel);
-//        tabbedPane.addTab("Gestion des CRUD", sessionPanel);
-//        tabbedPane.addTab("Statistiques", statsPanel);
+        tabbedPane.addTab("Gestion Sessions", sessionPanel);
+       // tabbedPane.addTab("Statistiques", statsPanel);
           tabbedPane.addTab("Dominantes", dominantePanel);
 
         this.add(tabbedPane, BorderLayout.CENTER); //ajout au centre
     }
 
       public GestionCampagnePanel getCampagnePanel() { return campagnePanel; }
-//    public GestionSessionPanel getSessionPanel() { return sessionPanel; }
-//    public StatistiquesPanel getStatsPanel() { return statsPanel; }
+    public GestionSessionPanel getSessionPanel() { return sessionPanel; }
+   // public StatistiquesPanel getStatsPanel() { return statsPanel; }
 
     public GestionDominantePanel getDominantePanel() {
         return dominantePanel;

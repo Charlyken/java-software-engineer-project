@@ -4,7 +4,7 @@ CREATE TABLE UTILISATEURS (
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     mot_de_passe VARCHAR(255) NOT NULL,
-    string VARCHAR(20) NOT NULL CHECK (string IN ('etudiant', 'admin'))
+    role VARCHAR(20) NOT NULL CHECK (role IN ('ADMIN', 'ETUDIANT'))
 );
 
 CREATE TABLE ETUDIANTS (
@@ -23,7 +23,9 @@ CREATE TABLE CAMPAGNES (
     id_campagne INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     nom_campagne VARCHAR(50) NOT NULL UNIQUE,
     date_debut DATE NOT NULL,
-    date_fin DATE NOT NULL
+    date_fin DATE NOT NULL,
+    nbre_choix INT NOT NULL,
+    etat VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE DOMINANTES (
