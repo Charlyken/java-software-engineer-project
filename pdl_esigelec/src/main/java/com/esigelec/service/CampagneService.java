@@ -58,7 +58,11 @@ public class CampagneService {
         }
     }   
 
+<<<<<<< HEAD
     public void changerEtat(Long campagneId, EtatCampagne nouvelEtat) throws Exception {
+=======
+    private void changerEtat(Long campagneId, EtatCampagne nouvelEtat) throws Exception {
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
         Campagne campagne = campagneDAO.findById(campagneId);
         if (campagne == null) {
             throw new IllegalArgumentException("Campagne non trouvée.");
@@ -77,6 +81,7 @@ public class CampagneService {
         }
         campagneDAO.updateEtat(campagneId, nouvelEtat);
     }
+<<<<<<< HEAD
     
     public void deleteCampagne(Long campagneId) {
         try {
@@ -106,4 +111,6 @@ public class CampagneService {
     public java.util.List<Campagne> getAllCampagnes() {
         return campagneDAO.findAll();
     }
+=======
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
 }

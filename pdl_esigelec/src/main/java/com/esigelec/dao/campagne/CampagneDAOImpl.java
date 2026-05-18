@@ -14,8 +14,11 @@ public class CampagneDAOImpl implements CampagneDAO{
     private static final String SELECT_ALL = "SELECT * FROM CAMPAGNES";
     private static final String SELECT_BY_ID = "SELECT * FROM CAMPAGNES WHERE id = ?";
     private static final String UPDATE_ETAT = "UPDATE CAMPAGNES SET etat = ? WHERE id = ?";
+<<<<<<< HEAD
     private static final String DELETE = "DELETE FROM CAMPAGNES WHERE id = ?";
     private static final String UPDATE = "UPDATE CAMPAGNES SET nom = ?, date_debut = ?, date_fin = ?, nbre_choix = ?, etat = ? WHERE id = ?";
+=======
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
 
     @Override
    public void create (Campagne campagne){
@@ -31,7 +34,11 @@ public class CampagneDAOImpl implements CampagneDAO{
             ps.setString(5, campagne.getEtat().name());
             ps.executeUpdate();
         } catch (SQLException e) {
+<<<<<<< HEAD
             throw new RuntimeException("Erreur lors de la création de la campagne : " + e.getMessage());
+=======
+            throw new RuntimeException(e);
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
         }
     }
 
@@ -52,7 +59,11 @@ public class CampagneDAOImpl implements CampagneDAO{
                 campagnes.add(campagne);
             }
         } catch (SQLException e) {
+<<<<<<< HEAD
             throw new RuntimeException("Erreur lors de la récupération des campagnes : " + e.getMessage());
+=======
+            throw new RuntimeException(e);
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
         }
         return campagnes;
     }
@@ -95,6 +106,7 @@ public class CampagneDAOImpl implements CampagneDAO{
             ps.setLong(2, idCampagne);
             ps.executeUpdate();
         } catch (SQLException e) {
+<<<<<<< HEAD
             throw new RuntimeException("Erreur lors de la mise à jour de l'état de la campagne : " + e.getMessage());
         }
 
@@ -133,4 +145,10 @@ public class CampagneDAOImpl implements CampagneDAO{
             throw new RuntimeException("Erreur lors de la mise à jour de la campagne : " + e.getMessage());
         }
     }
+=======
+            throw new RuntimeException(e);
+        }
+
+    }
+>>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
 }
