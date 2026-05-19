@@ -119,13 +119,13 @@
 - [x] 2.2.14 Tests manuels PVL (#1, #2, #5, #7) - *Julien + Tobi*
 
 #### SPRINT 2.3 - Portail Étudiant — Inscription & Choix (S9-S10)
-- [ ] 2.3.1 Entité POJO : Choix - *Tobi*
-- [ ] 2.3.2 ChoixDAO - *Tobi*
-- [ ] 2.3.3 ChoixService : ajouterChoix - *Tobi*
-- [ ] 2.3.4 ChoixService : détecterConflit - *Tobi*
-- [ ] 2.3.5 ChoixService : proposerAlternatives - *Tobi*
-- [ ] 2.3.6 ChoixService : modifierOrdre - *Tobi*
-- [ ] 2.3.7 ChoixService : supprimerChoix - *Tobi*
+- [x] 2.3.1 Entité POJO : Choix - *Tobi*
+- [x] 2.3.2 ChoixDAO - *Tobi*
+- [x] 2.3.3 ChoixService : ajouterChoix - *Tobi*
+- [x] 2.3.4 ChoixService : détecterConflit - *Tobi*
+- [x] 2.3.5 ChoixService : proposerAlternatives - *Tobi*
+- [x] 2.3.6 ChoixService : modifierOrdre - *Tobi*
+- [x] 2.3.7 ChoixService : supprimerChoix - *Tobi*
 - [ ] 2.3.8 EtudiantDashboard.java (JSplitPane) - *Julien*
 - [ ] 2.3.9 SessionsDisponiblesPanel - *Julien*
 - [ ] 2.3.10 MesVoeuxPanel - *Julien*

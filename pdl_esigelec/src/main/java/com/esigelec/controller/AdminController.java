@@ -69,7 +69,7 @@ public class AdminController {
         vue.getDominantePanel().getBtnSupprimerDominante().addActionListener(e -> onSupprimerDominante());
         vue.getDominantePanel().getBtnModifierDominante().addActionListener(e -> onModifierDominante());
     }
-<<<<<<< HEAD
+
 
     private void initCampagneListeners() {
         vue.getCampagnePanel().getBtnCreer().addActionListener(e -> onCreerCampagne());
@@ -81,10 +81,10 @@ public class AdminController {
         vue.getCampagnePanel().getBtnFermerCampagne().addActionListener(e -> onFermerCampagne());
         vue.getCampagnePanel().getBtnLancerTraitement().addActionListener(e -> onLancerTraitement());
 
-        // Event for table selection to update status label and fill form
+        // Listener de sélection d'une campagne dans le tableau
         vue.getCampagnePanel().getTableCampagnes().getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && vue.getCampagnePanel().getTableCampagnes().getSelectedRow() != -1) {
-                onCampagneSelectionnee();
+                onCampagneSelectionnee(); // Met à jour le formulaire et les boutons en fonction de la campagne sélectionnée
             }
         });
     }
@@ -145,7 +145,7 @@ public class AdminController {
             onResetFormCampagne();
             JOptionPane.showMessageDialog(vue, "Campagne créée.");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vue, "Erreur : " + ex.getMessage());
+            JOptionPane.showMessageDialog(vue, "Erreur lors de la création de la campagne: " + ex.getMessage());
         }
     }
 
@@ -170,7 +170,7 @@ public class AdminController {
             chargerCampagnes();
             JOptionPane.showMessageDialog(vue, "Campagne modifiée.");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(vue, "Erreur : " + ex.getMessage());
+            JOptionPane.showMessageDialog(vue, "Erreur lors de la modification de la campagne: " + ex.getMessage());
         }
     }
 
@@ -227,23 +227,25 @@ public class AdminController {
                 Dominante d = new Dominante();
                 d.setNomDominante(nomDominante);
                 d.setDescription(description);
+            }
+        }    
 
-=======
+    }
 
-    private void initCampagneListeners() {
+    private void initCampagneListeners1() {
         vue.getCampagnePanel().getBtnOuvrirCampagne().addActionListener(e -> onOuvrirCampagne());
         vue.getCampagnePanel().getBtnFermerCampagne().addActionListener(e -> onFermerCampagne());
         vue.getCampagnePanel().getBtnLancerTraitement().addActionListener(e -> onLancerTraitement());
     }
 
-    private void initSessionListeners() {
+    private void initSessionListeners1() {
         vue.getSessionPanel().getBtnCreer().addActionListener(e -> onCreerSession());
         vue.getSessionPanel().getBtnModifier().addActionListener(e -> onModifierSession());
         vue.getSessionPanel().getBtnSupprimer().addActionListener(e -> onSupprimerSession());
         vue.getSessionPanel().getBtnReset().addActionListener(e -> onResetSessionForm());
     }
 
-    private void onAjouterDominante() {
+    private void onAjouterDominante1() {
         JTextField nomField = new JTextField(15);
         JTextField descField = new JTextField(15);
 
@@ -265,7 +267,6 @@ public class AdminController {
                 d.setNomDominante(nomDominante);
                 d.setDescription(description);
 
->>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
                 dominanteDAO.createDominante(d);
                 chargerDominantes();
             }
@@ -334,7 +335,6 @@ public class AdminController {
 
 
     private void onOuvrirCampagne() {
-<<<<<<< HEAD
         int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
         if (row == -1) return;
         Long idCampagne = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
@@ -342,25 +342,26 @@ public class AdminController {
         try {
             campagneService.ouvrirCampagne(idCampagne);
             chargerCampagnes();
-=======
-        Long idCampagne = demanderIdCampagne();
-        if (idCampagne == null) {
-            return;
-        }
 
-        try {
-            campagneService.ouvrirCampagne(idCampagne);
->>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
-            vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Ouverte");
-            vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(false);
-            vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(vue, e.getMessage());
+        Long idCampagne1 = demanderIdCampagne();
+            if (idCampagne1 == null) {
+                return;
+            }
+
+            try {
+                campagneService.ouvrirCampagne(idCampagne1);
+                vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Ouverte");
+                vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(false);
+                vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(vue, e.getMessage());
+            }
+
         }
     }
 
     private void onFermerCampagne() {
-<<<<<<< HEAD
+
         int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
         if (row == -1) return;
         Long idCampagne = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
@@ -368,15 +369,6 @@ public class AdminController {
         try {
             campagneService.fermerCampagne(idCampagne);
             chargerCampagnes();
-=======
-        Long idCampagne = demanderIdCampagne();
-        if (idCampagne == null) {
-            return;
-        }
-
-        try {
-            campagneService.fermerCampagne(idCampagne);
->>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
             vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Fermee");
             vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(false);
             vue.getCampagnePanel().getBtnLancerTraitement().setEnabled(true);
@@ -402,11 +394,6 @@ public class AdminController {
         }
     }
 
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> 375411d0e9ede15b0c651e431a492a0f947e4b82
 
     private void onCreerSession() {
         Session session = lireSessionDepuisFormulaire();

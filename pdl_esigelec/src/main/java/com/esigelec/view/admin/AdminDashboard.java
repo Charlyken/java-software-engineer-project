@@ -46,8 +46,9 @@ public class AdminDashboard extends JFrame {
         this.add(tabbedPane, BorderLayout.CENTER); //ajout au centre
     }
 
+      // Getters pour les panels
       public GestionCampagnePanel getCampagnePanel() { return campagnePanel; }
-    public GestionSessionPanel getSessionPanel() { return sessionPanel; }
+      public GestionSessionPanel getSessionPanel() { return sessionPanel; }
    // public StatistiquesPanel getStatsPanel() { return statsPanel; }
 
     public GestionDominantePanel getDominantePanel() {
