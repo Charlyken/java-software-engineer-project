@@ -342,21 +342,11 @@ public class AdminController {
         try {
             campagneService.ouvrirCampagne(idCampagne);
             chargerCampagnes();
-
-        Long idCampagne1 = demanderIdCampagne();
-            if (idCampagne1 == null) {
-                return;
-            }
-
-            try {
-                campagneService.ouvrirCampagne(idCampagne1);
-                vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Ouverte");
-                vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(false);
-                vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(true);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(vue, e.getMessage());
-            }
-
+            vue.getCampagnePanel().getStatusLabel().setText("Etat de la campagne : Ouverte");
+            vue.getCampagnePanel().getBtnOuvrirCampagne().setEnabled(false);
+            vue.getCampagnePanel().getBtnFermerCampagne().setEnabled(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vue, e.getMessage());
         }
     }
 

@@ -1,6 +1,6 @@
 package com.esigelec.controller;
 
-import com.esigelec.model.Utilisateur;
+import com.esigelec.model.*;
 import com.esigelec.service.AuthService;
 import com.esigelec.view.admin.AdminDashboard;
 import com.esigelec.view.LoginView;
@@ -37,6 +37,7 @@ public class LoginController {
                 adminDashboard.setVisible(true);
             } else {
                 EtudiantDashboard etudiantDashboard = new EtudiantDashboard();
+                new EtudiantController(etudiantDashboard, (Etudiant) user);
                 etudiantDashboard.setVisible(true);
             }
 

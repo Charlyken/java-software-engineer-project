@@ -28,12 +28,16 @@ public class MesChoixPanel extends JPanel {
         this.add(lblTitre, c);
 
         // Tableau avec l'ordre de priorité
-        String[] colonnes = {"Priorité", "Dominante", "Horaires"};
+        String[] colonnes = {"Priorité", "Dominante", "Horaires", "ID Choix"};
         modelMesVoeux = new DefaultTableModel(null, colonnes) {
             @Override
             public boolean isCellEditable(int row, int column) { return false; }
         };
         tableMesChoix = new JTable(modelMesVoeux);
+        // Cacher la colonne ID pour l'affichage (index 3)
+        tableMesChoix.getColumnModel().getColumn(3).setMinWidth(0);
+        tableMesChoix.getColumnModel().getColumn(3).setMaxWidth(0);
+        tableMesChoix.getColumnModel().getColumn(3).setWidth(0);
 
         c.gridy = 1;
         c.weightx = 1.0; c.weighty = 1.0;
@@ -75,5 +79,13 @@ public class MesChoixPanel extends JPanel {
 
     public JButton getBtnSoumettreChoix() {
         return btnSoumettreChoix;
+    }
+
+    public DefaultTableModel getModelMesVoeux() {
+        return modelMesVoeux;
+    }
+
+    public JTable getTableMesChoix() {
+        return tableMesChoix;
     }
 }
