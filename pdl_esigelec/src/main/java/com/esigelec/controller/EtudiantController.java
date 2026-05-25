@@ -2,14 +2,15 @@ package com.esigelec.controller;
 
 import com.esigelec.dao.campagne.CampagneDAOImpl;
 import com.esigelec.dao.session.SessionDAOImpl;
-import com.esigelec.dao.choix.ChoixDAOImpl;
 import com.esigelec.model.Campagne;
 import com.esigelec.model.Choix;
 import com.esigelec.model.EtatCampagne;
-import com.esigelec.model.Etudiant;
+import com.esigelec.model.Utilisateur;
+import com.esigelec.model.Inscription;
 import com.esigelec.model.Session;
 import com.esigelec.service.CampagneService;
 import com.esigelec.service.ChoixService;
+import com.esigelec.service.InscriptionService;
 import com.esigelec.service.SessionService;
 import com.esigelec.view.etudiant.EtudiantDashboard;
 
@@ -17,35 +18,43 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.esigelec.view.etudiant.AlternativeSessionDialog;
 
 public class EtudiantController {
     private EtudiantDashboard vue;
-    private Etudiant etudiantConnecte;
+    private Utilisateur etudiantConnecte;
     private Campagne campagneActive;
 
     private CampagneService campagneService;
     private SessionService sessionService;
     private ChoixService choixService;
+    private InscriptionService inscriptionService;
 
-    public EtudiantController(EtudiantDashboard vue, Etudiant etudiant) {
+    public EtudiantController(EtudiantDashboard vue, Utilisateur etudiant) {
         this.vue = vue;
         this.etudiantConnecte = etudiant;
 
         this.campagneService = new CampagneService(new CampagneDAOImpl());
         this.sessionService = new SessionService(new SessionDAOImpl());
         this.choixService = new ChoixService();
+        this.inscriptionService = new InscriptionService();
 
         trouverCampagneActive();
         initListeners();
         
-        if (campagneActive != null && campagneActive.getEtat() == EtatCampagne.OUVERTE) {
-            chargerSessionsDisponibles();
-            chargerMesChoix();
+        if (campagneActive != null) {
+            if (campagneActive.getEtat() == EtatCampagne.OUVERTE) {
+                chargerSessionsDisponibles();
+                chargerMesChoix();
+            } else {
+                bloquerInterface("La campagne n'est pas actuellement ouverte. Vous pouvez consulter vos résultats.");
+                chargerResultats();
+            }
         } else {
-            bloquerInterface("La campagne n'est pas actuellement ouverte.");
+            bloquerInterface("Aucune campagne active n'est disponible.");
         }
     }
 
@@ -111,6 +120,41 @@ public class EtudiantController {
         }
     }
 
+    private void chargerResultats() {
+        DefaultTableModel model = vue.getResultatsPanel().getModelResultats();
+        model.setRowCount(0);
+
+        if (campagneActive == null) {
+            vue.getResultatsPanel().getLblResultatAffectation().setText("Aucun résultat disponible.");
+            return;
+        }
+
+        List<Inscription> inscriptions = inscriptionService.getInscriptionsByEtudiantAndCampagne(
+                etudiantConnecte.getId(),
+                campagneActive.getId()
+        );
+
+        if (inscriptions.isEmpty()) {
+            vue.getResultatsPanel().getLblResultatAffectation().setText("Aucun résultat disponible pour le moment.");
+            return;
+        }
+
+        vue.getResultatsPanel().getLblResultatAffectation().setText("Résultats de votre affectation.");
+        for (Inscription i : inscriptions) {
+            Session s = sessionService.getSessionById(i.getIdSession());
+            String dominante = s != null ? "Dominante ID: " + s.getDominante() : "Dominante inconnue";
+            String date = s != null ? String.valueOf(s.getDate()) : "";
+            String horaires = s != null ? s.getHeureDebut() + " - " + s.getHeureFin() : "";
+
+            model.addRow(new Object[]{
+                    i.getIdSession(),
+                    dominante,
+                    date,
+                    horaires
+            });
+        }
+    }
+
     private void initListeners() {
         vue.getSessionsPanel().getBtnAjouterChoix().addActionListener(e -> onAjouterChoix());
         vue.getVoeuxPanel().getBtnRetirerChoix().addActionListener(e -> onRetirerChoix());
@@ -150,7 +194,23 @@ public class EtudiantController {
             // Ici, pour l'instant, on lance une recherche basique de même dominante
             Session sessionEnConflit = sessionService.getSessionById(idSession);
             List<Session> alternatives = sessionService.getSessionsByCampagne(campagneActive.getId());
-            // TODO: filtrer par dominante si sessionEnConflit existe
+            if (sessionEnConflit != null) {
+                List<Session> filtrees = new ArrayList<>();
+                for (Session s : alternatives) {
+                    boolean memeDominante = sessionEnConflit.getDominante() != null
+                            && sessionEnConflit.getDominante().equals(s.getDominante());
+                    boolean autreSession = s.getId() != null && !s.getId().equals(sessionEnConflit.getId());
+                    if (memeDominante && autreSession) {
+                        filtrees.add(s);
+                    }
+                }
+                alternatives = filtrees;
+            }
+
+            if (alternatives.isEmpty()) {
+                JOptionPane.showMessageDialog(vue, "Aucune session alternative disponible.");
+                return;
+            }
             
             AlternativeSessionDialog dialog = new AlternativeSessionDialog(vue, alternatives, ex.getMessage());
             dialog.setVisible(true);
@@ -220,6 +280,10 @@ public class EtudiantController {
     }
 
     private void onSoumettreVoeux() {
+        if (campagneActive == null) {
+            JOptionPane.showMessageDialog(vue, "Aucune campagne active.");
+            return;
+        }
         if (vue.getVoeuxPanel().getModelMesVoeux().getRowCount() < campagneActive.getNbreChoix()) {
             JOptionPane.showMessageDialog(vue, "Vous devez saisir au moins " + campagneActive.getNbreChoix() + " choix.", "Attention", JOptionPane.WARNING_MESSAGE);
             return;

@@ -9,6 +9,7 @@ import com.esigelec.dao.session.SessionDAOImpl;
 import com.esigelec.model.Campagne;
 import com.esigelec.model.Dominante;
 import com.esigelec.model.Session;
+import com.esigelec.service.AffectationService;
 import com.esigelec.service.CampagneService;
 import com.esigelec.service.SessionService;
 import com.esigelec.view.admin.AdminDashboard;
@@ -25,6 +26,7 @@ public class AdminController {
     private CampagneDAO campagneDAO;
     private CampagneService campagneService;
     private SessionService sessionService;
+    private AffectationService affectationService;
 
     public AdminController(AdminDashboard vue) {
         this.vue = vue;
@@ -33,6 +35,7 @@ public class AdminController {
         this.campagneDAO = new CampagneDAOImpl();
         this.campagneService = new CampagneService(campagneDAO);
         this.sessionService = new SessionService(sessionDAO);
+        this.affectationService = new AffectationService();
         initListeners();
         chargerDominantes(); // chargement du tableau au démarrage
         chargerCampagnes();
@@ -368,7 +371,17 @@ public class AdminController {
     }
 
     private void onLancerTraitement() {
-        JOptionPane.showMessageDialog(vue, "Traitement automatique non implemente.");
+        int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
+        if (row == -1) return;
+
+        Long idCampagne = (Long) vue.getCampagnePanel().getTableModel().getValueAt(row, 0);
+        try {
+            int affectes = affectationService.lancerAffectation(idCampagne);
+            chargerCampagnes();
+            JOptionPane.showMessageDialog(vue, "Affectation terminée : " + affectes + " inscriptions créées.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vue, "Erreur lors du traitement : " + e.getMessage());
+        }
     }
 
     private Long demanderIdCampagne() {

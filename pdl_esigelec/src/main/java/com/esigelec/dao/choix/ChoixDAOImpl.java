@@ -59,6 +59,33 @@ public class ChoixDAOImpl implements ChoixDAO {
     }
 
     @Override
+    public List<Choix> getChoixByCampagne(Long idCampagne) {
+        List<Choix> choixList = new ArrayList<>();
+        String query = "SELECT * FROM CHOIX WHERE id_campagne = ? ORDER BY id_etudiant ASC, priorite ASC, date_saisie ASC";
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setLong(1, idCampagne);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Choix choix = new Choix(
+                        rs.getLong("id_choix"),
+                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_session"),
+                        rs.getLong("id_campagne"),
+                        rs.getDate("date_saisie"),
+                        rs.getInt("priorite")
+                );
+                choixList.add(choix);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return choixList;
+    }
+
+    @Override
     public Choix getChoixById(Long idChoix) {
         String query = "SELECT * FROM CHOIX WHERE id_choix = ?";
         try (Connection conn = DataBaseConnection.getConnection();

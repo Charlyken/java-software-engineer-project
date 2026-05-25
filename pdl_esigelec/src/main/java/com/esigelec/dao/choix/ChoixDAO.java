@@ -6,6 +6,7 @@ import com.esigelec.model.Choix;
 public interface ChoixDAO {
     void createChoix(Choix choix);
     List<Choix> getChoixByEtudiantAndCampagne(Long idEtudiant, Long idCampagne);
+    List<Choix> getChoixByCampagne(Long idCampagne);
     Choix getChoixById(Long idChoix);
     void updateChoix(Choix choix);
     void deleteChoix(Long idChoix);

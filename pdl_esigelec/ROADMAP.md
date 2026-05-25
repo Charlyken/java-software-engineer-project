@@ -126,24 +126,24 @@
 - [x] 2.3.5 ChoixService : proposerAlternatives - *Tobi*
 - [x] 2.3.6 ChoixService : modifierOrdre - *Tobi*
 - [x] 2.3.7 ChoixService : supprimerChoix - *Tobi*
-- [ ] 2.3.8 EtudiantDashboard.java (JSplitPane) - *Julien*
-- [ ] 2.3.9 SessionsDisponiblesPanel - *Julien*
-- [ ] 2.3.10 MesVoeuxPanel - *Julien*
-- [ ] 2.3.11 Bouton 'Ajouter à mes vœux' (validation immédiate) - *Julien*
-- [ ] 2.3.12 AlternativeSessionDialog.java - *Julien*
-- [ ] 2.3.13 Bouton VALIDER MES VŒUX - *Julien + Tobi*
-- [ ] 2.3.14 Blocage interface si campagne != Ouverte - *Julien*
-- [ ] 2.3.15 Tests manuels PVL (#10 à #15, #17) - *Julien + Tobi*
+- [X] 2.3.8 EtudiantDashboard.java (JSplitPane) - *Julien*
+- [x] 2.3.9 SessionsDisponiblesPanel - *Julien*
+- [x] 2.3.10 MesVoeuxPanel - *Julien*
+- [x] 2.3.11 Bouton 'Ajouter à mes vœux' (validation immédiate) - *Julien*
+- [x] 2.3.12 AlternativeSessionDialog.java - *Julien*
+- [x] 2.3.13 Bouton VALIDER MES VŒUX - *Julien + Tobi*
+- [x] 2.3.14 Blocage interface si campagne != Ouverte - *Julien*
+- [x] 2.3.15 Tests manuels PVL (#10 à #15, #17) - *Julien + Tobi*
 
 #### SPRINT 2.4 - Algorithme d'affectation & Résultats (S11)
-- [ ] 2.4.1 Entité Inscription - *Tobi*
-- [ ] 2.4.2 InscriptionDAO - *Tobi*
-- [ ] 2.4.3 AffectationService (algo greedy) - *Tobi*
-- [ ] 2.4.4 AffectationService (capacités max) - *Tobi*
-- [ ] 2.4.5 AffectationService (changement état) - *Tobi*
-- [ ] 2.4.6 Bouton 'Lancer Traitement' (Admin) - *Julien*
-- [ ] 2.4.7 ResultatsPanel.java (Étudiant) - *Julien*
-- [ ] 2.4.8 StatistiquesPanel.java (Admin) - *Julien*
+- [x] 2.4.1 Entité Inscription - *Tobi*
+- [x] 2.4.2 InscriptionDAO - *Tobi*
+- [x] 2.4.3 AffectationService (algo greedy) - *Tobi*
+- [x] 2.4.4 AffectationService (capacités max) - *Tobi*
+- [x] 2.4.5 AffectationService (changement état) - *Tobi*
+- [x] 2.4.6 Bouton 'Lancer Traitement' (Admin) - *Julien*
+- [x] 2.4.7 ResultatsPanel.java (Étudiant) - *Julien*
+- [x] 2.4.8 StatistiquesPanel.java (Admin) - *Julien*
 - [ ] 2.4.9 Export CSV - *Julien*
 - [ ] 2.4.10 Tests manuels PVL (#18, #19, #20) - *Julien + Tobi*
 

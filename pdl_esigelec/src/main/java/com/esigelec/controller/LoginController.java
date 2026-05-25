@@ -37,7 +37,7 @@ public class LoginController {
                 adminDashboard.setVisible(true);
             } else {
                 EtudiantDashboard etudiantDashboard = new EtudiantDashboard();
-                new EtudiantController(etudiantDashboard, (Etudiant) user);
+                new EtudiantController(etudiantDashboard, user);
                 etudiantDashboard.setVisible(true);
             }
 
