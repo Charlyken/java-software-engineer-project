@@ -209,6 +209,7 @@ public class AdminController {
         vue.getSessionPanel().getBtnReset().addActionListener(e -> onResetSessionForm());
     }
 
+    // Section Dominantes
     private void onAjouterDominante() {
         JTextField nomField = new JTextField(15);
         JTextField descField = new JTextField(15);
@@ -230,6 +231,9 @@ public class AdminController {
                 Dominante d = new Dominante();
                 d.setNomDominante(nomDominante);
                 d.setDescription(description);
+                dominanteDAO.createDominante(d);
+
+                chargerDominantes();
             }
         }    
 
@@ -335,8 +339,7 @@ public class AdminController {
         return selectedRow;
     }
 
-
-
+    // Section Campagnes
     private void onOuvrirCampagne() {
         int row = getSelectedRow(vue.getCampagnePanel().getTableCampagnes(), "Sélectionnez une campagne.");
         if (row == -1) return;
@@ -397,7 +400,7 @@ public class AdminController {
         }
     }
 
-
+    // Section Session
     private void onCreerSession() {
         Session session = lireSessionDepuisFormulaire();
         if (session == null) {

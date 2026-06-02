@@ -15,6 +15,7 @@ public class ChoixService {
     }
 
     public void ajouterChoix(Choix choix) throws Exception {
+
         if (detecterConflit(choix.getIdEtudiant(), choix.getIdSession())) {
             throw new Exception("Conflit d'horaire détecté : Vous avez déjà une session à la même date et heure.");
         }

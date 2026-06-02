@@ -14,7 +14,7 @@ public class InscriptionDAOImpl implements InscriptionDAO {
 
     @Override
     public void createInscription(Inscription inscription) {
-        String query = "INSERT INTO INSCRIPTIONS (id_etudiant, id_session, id_campagne, date_inscription) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO INSCRIPTIONS (id_utilisateur, id_session, id_campagne, date_inscription) VALUES (?, ?, ?, ?)";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
@@ -32,7 +32,7 @@ public class InscriptionDAOImpl implements InscriptionDAO {
     @Override
     public List<Inscription> getInscriptionsByEtudiantAndCampagne(Long idEtudiant, Long idCampagne) {
         List<Inscription> inscriptions = new ArrayList<>();
-        String query = "SELECT * FROM INSCRIPTIONS WHERE id_etudiant = ? AND id_campagne = ?";
+        String query = "SELECT * FROM INSCRIPTIONS WHERE id_utilisateur = ? AND id_campagne = ?";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
@@ -43,7 +43,7 @@ public class InscriptionDAOImpl implements InscriptionDAO {
             while (rs.next()) {
                 Inscription inscription = new Inscription(
                         rs.getLong("id_inscription"),
-                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_utilisateur"),
                         rs.getLong("id_session"),
                         rs.getLong("id_campagne"),
                         rs.getDate("date_inscription")
@@ -69,7 +69,7 @@ public class InscriptionDAOImpl implements InscriptionDAO {
             while (rs.next()) {
                 Inscription inscription = new Inscription(
                         rs.getLong("id_inscription"),
-                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_utilisateur"),
                         rs.getLong("id_session"),
                         rs.getLong("id_campagne"),
                         rs.getDate("date_inscription")

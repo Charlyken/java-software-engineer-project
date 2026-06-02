@@ -14,7 +14,7 @@ public class ChoixDAOImpl implements ChoixDAO {
 
     @Override
     public void createChoix(Choix choix) {
-        String query = "INSERT INTO CHOIX (id_etudiant, id_session, id_campagne, date_saisie, priorite) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO CHOIX (id_utilisateur, id_session, id_campagne, date_saisie, priorite) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
@@ -33,7 +33,7 @@ public class ChoixDAOImpl implements ChoixDAO {
     @Override
     public List<Choix> getChoixByEtudiantAndCampagne(Long idEtudiant, Long idCampagne) {
         List<Choix> choixList = new ArrayList<>();
-        String query = "SELECT * FROM CHOIX WHERE id_etudiant = ? AND id_campagne = ? ORDER BY priorite ASC";
+        String query = "SELECT * FROM CHOIX WHERE id_utilisateur = ? AND id_campagne = ? ORDER BY priorite ASC";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             
@@ -44,7 +44,7 @@ public class ChoixDAOImpl implements ChoixDAO {
             while (rs.next()) {
                 Choix choix = new Choix(
                         rs.getLong("id_choix"),
-                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_utilisateur"),
                         rs.getLong("id_session"),
                         rs.getLong("id_campagne"),
                         rs.getDate("date_saisie"),
@@ -61,7 +61,7 @@ public class ChoixDAOImpl implements ChoixDAO {
     @Override
     public List<Choix> getChoixByCampagne(Long idCampagne) {
         List<Choix> choixList = new ArrayList<>();
-        String query = "SELECT * FROM CHOIX WHERE id_campagne = ? ORDER BY id_etudiant ASC, priorite ASC, date_saisie ASC";
+        String query = "SELECT * FROM CHOIX WHERE id_campagne = ? ORDER BY id_utilisateur ASC, priorite ASC, date_saisie ASC";
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
 
@@ -71,7 +71,7 @@ public class ChoixDAOImpl implements ChoixDAO {
             while (rs.next()) {
                 Choix choix = new Choix(
                         rs.getLong("id_choix"),
-                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_utilisateur"),
                         rs.getLong("id_session"),
                         rs.getLong("id_campagne"),
                         rs.getDate("date_saisie"),
@@ -97,7 +97,7 @@ public class ChoixDAOImpl implements ChoixDAO {
             if (rs.next()) {
                 return new Choix(
                         rs.getLong("id_choix"),
-                        rs.getLong("id_etudiant"),
+                        rs.getLong("id_utilisateur"),
                         rs.getLong("id_session"),
                         rs.getLong("id_campagne"),
                         rs.getDate("date_saisie"),
@@ -147,7 +147,7 @@ public class ChoixDAOImpl implements ChoixDAO {
                 SELECT COUNT(*) FROM CHOIX c
                 JOIN SESSIONS s1 ON c.id_session = s1.id_session
                 JOIN SESSIONS s2 ON s2.id_session = ?
-                WHERE c.id_etudiant = ?
+                WHERE c.id_utilisateur = ?
                 AND s1.date_session = s2.date_session
                 AND s1.heure_debut = s2.heure_debut
                 """;

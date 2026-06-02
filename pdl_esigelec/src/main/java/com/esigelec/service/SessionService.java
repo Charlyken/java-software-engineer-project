@@ -14,6 +14,7 @@ public class SessionService {
     }
     
     public Session creerSession(int capaciteMax, Long idCampagne, Long idDominante, java.sql.Date date, String heureDebut, String heureFin) {
+
         if (idCampagne == null || date == null || heureDebut == null || heureFin == null || capaciteMax <= 0 || idDominante == null) {
             throw new IllegalArgumentException("Tous les champs sont obligatoires et doivent être valides.");
         }

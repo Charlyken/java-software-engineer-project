@@ -7,8 +7,8 @@ import com.esigelec.view.LoginView;
 import com.esigelec.view.etudiant.EtudiantDashboard;
 
 public class LoginController {
-    private LoginView loginView;
-    private AuthService authService;
+    private final LoginView loginView;
+    private final AuthService authService;
 
     public LoginController(LoginView loginView, AuthService authService) {
         this.loginView = loginView;
